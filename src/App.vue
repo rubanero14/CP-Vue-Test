@@ -2,7 +2,9 @@
   <section :class="{ dark : $store.state.darkIsOn }">
     <header :class="{ 'mb-0' : $store.state.articleLoaded }">
       <div class="row">
-        <div class="col-4"></div>
+        <div class="col-4">
+          <a class="btn" href="https://github.com/rubanero14/CP-Vue-Test">View Source Code</a>
+        </div>
         <div class="col-4">
           <h1 class="text-center">Articles</h1>
         </div>
