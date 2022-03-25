@@ -11,15 +11,23 @@
     </header>
     <div class="container">
       <div class="row">
-      <div class="col-12 col-md-2">
+      <div class="col-12 col-md-4 order-1">
         <transition mode="out-in">
           <a class="btn w-100 mb-2" href="https://github.com/rubanero14/CP-Vue-Test"><i class="bi bi-file-earmark-code"></i> Source Code</a>
         </transition>
       </div>
-      <div class="col-12 col-md-2 text-lg-end">
+      <div class="col-12 col-md-4 order-3 order-md-2">
+        <div>
+          <transition mode="out-in">
+            <button v-if="!$store.state.articleLoaded" class="btn w-100 mb-4 mb-md-2" @click="loadArticles"><i class="bi bi-arrow-clockwise"></i> Load Articles</button>
+            <button v-else class="btn w-100 mb-4 mb-md-2" @click="resetPage"><i class="bi bi-arrow-left"></i> Back</button>
+          </transition>
+        </div>
+      </div>
+      <div class="col-12 col-md-4 order-2 order-md-3">
         <transition mode="out-in">
-          <button class="btn w-100 mb-4" @click="toggleDarkMode" v-if="$store.state.darkIsOn"><i class="bi bi-brightness-high"></i> Light Mode</button>
-          <button class="btn w-100 mb-4" @click="toggleDarkMode" v-else><i class="bi bi-moon"></i> Dark Mode</button>
+          <button class="btn w-100 mb-2 mb-md-4" @click="toggleDarkMode" v-if="$store.state.darkIsOn"><i class="bi bi-brightness-high"></i> Light Mode</button>
+          <button class="btn w-100 mb-2 mb-md-4" @click="toggleDarkMode" v-else><i class="bi bi-moon"></i> Dark Mode</button>
         </transition>
       </div>
     </div>
@@ -44,14 +52,6 @@
               </transition-group>
           </div>
           <hr v-if="$store.state.articleLoaded"/>
-        </div>
-        <div class="col-12 col-md-2">
-          <div class="text-center">
-            <transition mode="out-in">
-              <button v-if="!$store.state.articleLoaded" class="btn w-100" @click="loadArticles"><i class="bi bi-arrow-clockwise"></i> Load Articles</button>
-              <button v-else class="btn w-100" @click="resetPage"><i class="bi bi-arrow-left"></i> Back</button>
-            </transition>
-          </div>
         </div>
       </div>
     </div>
@@ -120,6 +120,7 @@ section {
 header h1 {
  font-family: var(--font-Roboto);
  font-weight: 700;
+ font-size: 40px;
  color: var(--font-color-primary);
 }
 
