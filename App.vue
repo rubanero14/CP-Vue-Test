@@ -1,34 +1,35 @@
 <template>
   <section :class="{ dark : $store.state.darkIsOn }">
-    <header :class="{ 'mb-0' : $store.state.articleLoaded }">
-      <div class="row">
-        <div class="col-4">
-          <a class="btn me-2" href="https://github.com/rubanero14/CP-Vue-Test">View Source Code</a>
-        </div>
-        <div class="col-4">
-          <h1 class="ms-2 ms-lg-0 text-center">Articles</h1>
-        </div>
-        <div class="col-4 text-end">
-          <button class="btn toggle" @click="toggleDarkMode" v-if="$store.state.darkIsOn">Light Mode <i class="bi bi-brightness-high"></i></button>
-          <button class="btn toggle" @click="toggleDarkMode" v-else>Dark Mode <i class="bi bi-moon"></i></button>
+    <header class="mb-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1 class="text-center mb-3">Articles</h1>
+          </div>
         </div>
       </div>
     </header>
-    <div class="row">
-      <div class="col-12">
-        
-      </div>
-    </div>
     <div class="container">
       <div class="row">
+      <div class="col-12 col-md-2">
+        <transition mode="out-in">
+          <a class="btn w-100 mb-2" href="https://github.com/rubanero14/CP-Vue-Test"><i class="bi bi-file-earmark-code"></i> Source Code</a>
+        </transition>
+      </div>
+      <div class="col-12 col-md-2 text-lg-end">
+        <transition mode="out-in">
+          <button class="btn w-100 mb-4" @click="toggleDarkMode" v-if="$store.state.darkIsOn"><i class="bi bi-brightness-high"></i> Light Mode</button>
+          <button class="btn w-100 mb-4" @click="toggleDarkMode" v-else><i class="bi bi-moon"></i> Dark Mode</button>
+        </transition>
+      </div>
+    </div>
+      <div class="row">
         <div class="col-12" v-if="!$store.state.articleLoaded">
-          <div class="card">
-            <div class="d-flex justify-content-center align-items-center" @click="loadArticles">
-              <p>Click below to load the latest articles</p>
-            </div>
+          <div class="card text-center" @click="loadArticles">
+            <p>Click below to load the latest articles</p>
           </div>
           <div class="text-center" v-if="$store.state.isLoading">
-            <div class="spinner-border" role="status">
+            <div class="spinner-border" :class="{ 'text-dark': !$store.state.darkIsOn, 'text-light' : $store.state.darkIsOn }" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
@@ -36,19 +37,21 @@
         <div class="col-12">
           <hr v-if="$store.state.articleLoaded"/>
           <div class="row" v-if="$store.state.articleLoaded">
-              <transition-group class="col-12 col-md-6 col-lg-4" tag="div" v-for="todo in $store.state.todos" :key="todo.id" :id="todo.id">
-                <div class="card text-center">
+              <transition-group class="col-12 col-md-6 col-lg-4" name="list" tag="div" mode="in-out" v-for="todo in $store.state.todos" :key="todo.id" :id="todo.id">
+                <div class="card list text-center">
                     <p> {{ todo.title }} </p>
                 </div>
               </transition-group>
           </div>
           <hr v-if="$store.state.articleLoaded"/>
         </div>
-      </div>
-      <div class="col-12">
-        <div class="text-center">
-          <button v-if="!$store.state.articleLoaded" class="btn" @click="loadArticles">Click Here</button>
-          <button v-if="$store.state.articleLoaded" class="btn" @click="resetPage">Back</button>
+        <div class="col-12 col-md-2">
+          <div class="text-center">
+            <transition mode="out-in">
+              <button v-if="!$store.state.articleLoaded" class="btn w-100" @click="loadArticles"><i class="bi bi-arrow-clockwise"></i> Load Articles</button>
+              <button v-else class="btn w-100" @click="resetPage"><i class="bi bi-arrow-left"></i> Back</button>
+            </transition>
+          </div>
         </div>
       </div>
     </div>
@@ -71,12 +74,6 @@ export default {
       return this.$store.state.darkIsOn = !this.$store.state.darkIsOn;
     },
   },
-  computed:{},
-  watch:{},
-  props:{},
-  components:{},
-  provide:{},
-  inject:{},
 }
 </script>
 
@@ -84,9 +81,6 @@ export default {
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
 @Import url('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
 :root {
-  --theme-color: #003479;
-  --theme-color-primary: #0B74B9;
-  --theme-color-dark: #001E45;
   --theme-color-grey: #d3d3d3;
   --theme-color-grey-light: #E0E0E0;
   --theme-color-grey-dark: #828282;
@@ -95,31 +89,17 @@ export default {
   --font-size-lg: 15px;
   --font-size-md: 13px;
   --font-size-sm: 12px;
-  --font-weight-100: 100;
-  --font-weight-300: 300;
-  --font-weight-400: 400;
-  --font-weight-500: 500;
   --font-weight-700: 700;
-  --btn-padding: 10px 30px;
-  --input-padding: 8px 15px;
   --border-radius-sm: 4px;
   --border-radius-lg: 12px;
-  --line-height-sm: 1.1;
-  --line-height-md: 1.2;
-  --line-height-lg: 1.3;
-  --line-height-xl: 1.5;
   --font-Roboto: 'Roboto', sans-serif;
-  --box-shadow-input: 0px 5px 12px rgba(0, 0, 0, 0.15);
   --box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.20);
-  --support-success: #198754;
-  --support-success-dark: #157347;
-  --support-error: #D84E4E;
-  --support-error-dark: #bb2d3b;
 }
 
 ul, ol, p {
+  display: inline-block;
   padding: 0;
-  margin: 0;
+  margin: auto 0;
   list-style: none;
 }
 
@@ -145,29 +125,36 @@ header h1 {
 
 .btn {
   color: var(--font-color-light);
-  background: #9c9c9c;
+  background: #686868;
   padding: 5px 10px;
   font-size: var(--font-size-md);
   white-space: nowrap;
+  animation:  slide-fade 1s ease-out;
 }
 
 .btn:hover, .btn:focus, .btn:focus-visible {
-  background: var(--theme-color-grey-dark);
+  background: #454545;
   box-shadow: 0px 1px 4px 0px rgba(0,0,0, 0.2);
   color: var(--font-color-light);
 }
 
 hr {
   background-color: var(--theme-color-grey-dark);
-  margin-bottom: 25px;
+  margin: 0 0 25px 0;
 }
 
 .card {
   border-radius: var(--border-radius-lg);
-  padding: 20px;
   box-shadow: 0px 1px 4px 0px rgba(0,0,0, 0.2);
   margin-bottom: 30px;
   color: var(--font-color-primary);
+  height: 90px;
+  transform: rotateX(0deg);
+  transition: transform 2s ease-in-out;
+}
+
+.card.list:hover {
+  transform: rotateX(3600deg);
 }
 
 hr:not([size]) {
@@ -192,7 +179,7 @@ section.dark {
 } 
 
 .dark .card {
-  background: #434343;
+  background: #686868;
   color: var(--font-color-light) !important;
 }
 
@@ -205,36 +192,32 @@ section.dark {
   margin-bottom: 25px;
 }
 
-.dark .btn {
-  color: var(--font-color-primary);
-  background: var(--theme-color-grey-light);
-  padding: 5px 10px;
-}
-
-.dark .btn:hover, .dark .btn:focus, .dark .btn:focus-visible {
-  background: var(--theme-color-grey);
-  box-shadow: 0px 1px 4px 0px rgba(0,0,0, 0.2);
-  color: var(--font-color-primary) !important; 
-}
-
-.v-enter-from, .v-leave-to {
-  /* transform: rotateX(0deg); */
+.v-enter-from {
   opacity: 0;
+  transform: translateX(-50px);
 }
 
-.v-enter-active, .v-leave-active {
-  transition: all 3s ease-out;
+.v-leave-to {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.v-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.v-leave-active {
+  transition: all 0.3s ease-in;
 }
 
 .v-enter-to, .v-leave-from {
-  /* transform: rotateX(3600deg); */
   opacity: 1;
+  transform: translateX(0);
 }
 
 @media (max-width: 992px){
   a.btn, button.btn {
     font-size: var(--font-size-sm);
-    white-space: nowrap;
   }
 }
 </style>
