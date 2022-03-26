@@ -63,7 +63,7 @@
             <p>Click here to load the latest articles</p>
           </div>
           <div class="text-center" v-if="$store.state.isLoading">
-            <div class="spinner-border" :class="{ 'text-dark': !$store.state.darkIsOn, 'text-light' : $store.state.darkIsOn }" role="status">
+            <div class="spinner-border" :class="{ 'text-secondary': !$store.state.darkIsOn, 'text-light' : $store.state.darkIsOn }" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
