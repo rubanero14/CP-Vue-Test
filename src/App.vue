@@ -11,24 +11,56 @@
     </header>
     <div class="container">
       <div class="row">
-      <div class="col-12 col-md-2">
-        <transition mode="out-in">
-          <a class="btn w-100 mb-2" href="https://github.com/rubanero14/CP-Vue-Test"><i class="bi bi-file-earmark-code"></i> Source Code</a>
-        </transition>
+        <div class="col-12 col-md-4 order-1">
+          <transition mode="out-in">
+            <a class="btn w-100 mb-2" href="https://github.com/rubanero14/CP-Vue-Test"><i class="bi bi-file-earmark-code"></i> Source Code</a>
+          </transition>
+        </div>
+        <div class="col-12 col-md-4 order-3 order-md-2">
+          <div>
+            <transition mode="out-in">
+              <button v-if="!$store.state.articleLoaded" class="btn w-100 mb-4 mb-md-2" @click="loadArticles"><i class="bi bi-arrow-clockwise"></i> Load Articles</button>
+              <button v-else class="btn w-100 mb-4 mb-md-2" @click="resetPage"><i class="bi bi-arrow-left"></i> Back</button>
+            </transition>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 order-2 order-md-3">
+          <transition mode="out-in">
+            <button class="btn w-100 mb-2 mb-md-4" @click="toggleDarkMode" v-if="$store.state.darkIsOn"><i class="bi bi-brightness-high"></i> Light Mode</button>
+            <button class="btn w-100 mb-2 mb-md-4" @click="toggleDarkMode" v-else><i class="bi bi-moon"></i> Dark Mode</button>
+          </transition>
+        </div>
       </div>
-      <div class="col-12 col-md-2 text-lg-end">
-        <transition mode="out-in">
-          <button class="btn w-100 mb-4" @click="toggleDarkMode" v-if="$store.state.darkIsOn"><i class="bi bi-brightness-high"></i> Light Mode</button>
-          <button class="btn w-100 mb-4" @click="toggleDarkMode" v-else><i class="bi bi-moon"></i> Dark Mode</button>
-        </transition>
-      </div>
-    </div>
       <div class="row">
         <div class="col-12" v-if="!$store.state.articleLoaded">
-          <div class="card">
-            <div class="d-flex justify-content-center align-items-center" @click="loadArticles">
-              <p>Click below to load the latest articles</p>
-            </div>
+          <p>Please select number of articles to be loaded:</p>
+          <div class="d-flex justify-content-start align-items-center">
+            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="10" type="radio" name="articlesNumber">
+            <label for="articlesNumber">10</label>
+          </div>
+          <div class="d-flex justify-content-start align-items-center">
+            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="50" type="radio" name="articlesNumber">
+            <label for="articlesNumber">50</label>
+          </div>
+          <div class="d-flex justify-content-start align-items-center">
+            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="100" type="radio" name="articlesNumber">
+            <label for="articlesNumber">100</label>
+          </div>
+          <div class="d-flex justify-content-start align-items-center mb-3">
+            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="200" type="radio" name="articlesNumber">
+            <label for="articlesNumber">200</label>
+          </div>
+        </div>
+        <div class="col-12" v-else>
+          <div class="text-center">
+              <p class="mb-3">Total Articles Loaded: {{ totalArticle }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12" v-if="!$store.state.articleLoaded">
+          <div class="card text-center" @click="loadArticles">
+            <p>Click here to load the latest articles</p>
           </div>
           <div class="text-center" v-if="$store.state.isLoading">
             <div class="spinner-border" :class="{ 'text-dark': !$store.state.darkIsOn, 'text-light' : $store.state.darkIsOn }" role="status">
@@ -40,20 +72,12 @@
           <hr v-if="$store.state.articleLoaded"/>
           <div class="row" v-if="$store.state.articleLoaded">
               <transition-group class="col-12 col-md-6 col-lg-4" name="list" tag="div" mode="in-out" v-for="todo in $store.state.todos" :key="todo.id" :id="todo.id">
-                <div class="card text-center">
+                <div class="card list text-center">
                     <p> {{ todo.title }} </p>
                 </div>
               </transition-group>
           </div>
           <hr v-if="$store.state.articleLoaded"/>
-        </div>
-        <div class="col-12 col-md-2">
-          <div class="text-center">
-            <transition mode="out-in">
-              <button v-if="!$store.state.articleLoaded" class="btn w-100" @click="loadArticles"><i class="bi bi-arrow-clockwise"></i> Load Articles</button>
-              <button v-else class="btn w-100" @click="resetPage"><i class="bi bi-arrow-left"></i> Back</button>
-            </transition>
-          </div>
         </div>
       </div>
     </div>
@@ -63,10 +87,21 @@
 <script>
 export default {
   data(){
-    return{};
+    return{
+      totalArticle: 10,
+    };
+  },
+  mounted(){
+    this.$store.commit("setArticleNumber", parseInt(this.totalArticle));
   },
   methods:{
+    setInputValue(payload){
+      console.log(typeof parseInt(payload), parseInt(this.totalArticle));
+      this.$store.commit("setArticleNumber", parseInt(this.totalArticle));
+    },
     loadArticles(){
+      console.log(typeof parseInt(this.totalArticle), parseInt(this.totalArticle));
+      this.$store.commit("setArticleNumber", parseInt(this.totalArticle));
       this.$store.commit('loadData');
     },
     resetPage(){
@@ -105,6 +140,11 @@ ul, ol, p {
   list-style: none;
 }
 
+label {
+  color: var(--font-color-primary);
+  font-size: var(--font-size-lg);
+}
+
 header {
   margin-bottom: 30px;
 }
@@ -122,6 +162,7 @@ section {
 header h1 {
  font-family: var(--font-Roboto);
  font-weight: 700;
+ font-size: 40px;
  color: var(--font-color-primary);
 }
 
@@ -151,18 +192,21 @@ hr {
   margin-bottom: 30px;
   color: var(--font-color-primary);
   height: 90px;
-  line-height: 90px;
   transform: rotateX(0deg);
   transition: transform 2s ease-in-out;
 }
 
-.card.text-center:hover {
+.card.list:hover {
   transform: rotateX(3600deg);
 }
 
 hr:not([size]) {
   height: 5px;
   border-radius: 5px;
+}
+
+input[type="radio"] {
+  accent-color: var(--theme-color-grey-dark);
 }
 
 /*Dark Theme*/
@@ -195,14 +239,18 @@ section.dark {
   margin-bottom: 25px;
 }
 
+.dark p, .dark label {
+  color: var(--theme-color-grey-light);
+}
+
 .v-enter-from {
   opacity: 0;
-  transform: translateX(-50px);
+  transform: rotateY(180deg);
 }
 
 .v-leave-to {
   opacity: 0;
-  transform: translateX(50px);
+  transform: rotateY(180deg);
 }
 
 .v-enter-active {

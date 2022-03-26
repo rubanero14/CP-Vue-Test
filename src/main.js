@@ -10,6 +10,7 @@ const store = createStore({
             isLoading: false,
             articleLoaded: false,
             darkIsOn: false,
+            articleNumber: 10,
         };
     },
     actions:{},
@@ -21,7 +22,7 @@ const store = createStore({
                     state.isLoading = false; 
                     state.todos.push(...response.data); //flattened the array and pushing to todos array
                     console.log(state.todos);
-                    state.todos.length = 10; // to remove any excess data > 10 inside array
+                    state.todos.length = state.articleNumber; // to remove any excess data > 10 inside array
                     state.articleLoaded = true;
                 }
             );
@@ -31,6 +32,9 @@ const store = createStore({
             state.articleLoaded = false;
             state.todos = [];
             state.isLoading = false;
+        },
+        setArticleNumber(state, payload){
+            state.articleNumber = payload;
         },
     },
 });
