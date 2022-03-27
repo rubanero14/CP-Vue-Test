@@ -35,19 +35,19 @@
         <div class="col-12" v-if="!$store.state.articleLoaded">
           <p>Please select number of articles to be loaded:</p>
           <div class="d-flex justify-content-start align-items-center">
-            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="10" type="radio" name="articlesNumber">
+            <input @change="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="10" type="radio" name="articlesNumber">
             <label for="articlesNumber">10</label>
           </div>
           <div class="d-flex justify-content-start align-items-center">
-            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="50" type="radio" name="articlesNumber">
+            <input @change="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="50" type="radio" name="articlesNumber">
             <label for="articlesNumber">50</label>
           </div>
           <div class="d-flex justify-content-start align-items-center">
-            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="100" type="radio" name="articlesNumber">
+            <input @change="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="100" type="radio" name="articlesNumber">
             <label for="articlesNumber">100</label>
           </div>
           <div class="d-flex justify-content-start align-items-center mb-3">
-            <input @click="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="200" type="radio" name="articlesNumber">
+            <input @change="setInputValue(totalArticle)" v-model="totalArticle" class="me-1" value="200" type="radio" name="articlesNumber">
             <label for="articlesNumber">200</label>
           </div>
         </div>

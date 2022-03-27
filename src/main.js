@@ -22,7 +22,7 @@ const store = createStore({
                     state.isLoading = false; 
                     state.todos.push(...response.data); //flattened the array and pushing to todos array
                     console.log(state.todos);
-                    state.todos.length = state.articleNumber; // to remove any excess data > 10 inside array
+                    state.todos.length = state.articleNumber; // setting the limit to number of datas exists inside todos array
                     state.articleLoaded = true;
                 }
             );
